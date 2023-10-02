@@ -46,7 +46,7 @@ g.princals(fitord,save=1,show=0)#save plots in PNG format
 
 In this section, an R script and corresponding plots created using the g.princals function are presented.
 
-|[![Plot.](6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png)|
+|[![Plot.1](g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png)|
 |:--:| 
 |*Picture. Transplots of ABC dataset*|
 
