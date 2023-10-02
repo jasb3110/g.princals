@@ -12,8 +12,6 @@ It´s R-script to improve aesthetic plotting of princals function of Gifi packag
 
 g.princals is a function designed to address aesthetic issues encountered when using plot.princals of "Gifi"" package[(3)](#reference), which exclusively generates plots using a "graphic" package. g.princals leverages the power of the ggplot2 package, renowned for producing high-quality visuals.
 
-In this part, it was showed a r-script and plots which create to g.princals function.
-
 ## Instruction
 
 "g.princals" replaces the default "plot" function in R, generating customized graphics for customer items. 
@@ -45,6 +43,15 @@ g.princals(fitord,save=0,show=1)#show plots
 g.princals(fitord,save=1,show=0)#save plots in PNG format
 ################################################################################
 ```
+
+In this section, an R script and corresponding plots created using the g.princals function are presented.
+
+|[![Plot.](g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png)|
+|:--:| 
+|*Picture. Transplots of ABC dataset*|
+
+
+
 
 ## Reference
 
