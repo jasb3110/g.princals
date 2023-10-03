@@ -16,7 +16,7 @@ It´s R-script to improve aesthetic plotting of princals function of Gifi packag
 
 ## Proposal 
 
-g.princals is a function designed to address aesthetic issues encountered when using plot.princals of "Gifi"" package[(3)](#reference), which exclusively generates plots using a "graphic" package. g.princals leverages the power of the ggplot2 package, renowned for producing high-quality visuals.this function just produce, transplot, scree plot, loadplot and biplot for hierarchical categoric variables.
+g.princals is a function designed to address aesthetic issues encountered when using plot.princals of "Gifi" package[(1)](#reference), which exclusively generates plots using a "graphic" package. g.princals leverages the power of the ggplot2 package, renowned for producing high-quality visuals.this function just produce, transplot, scree plot, loadplot and biplot for hierarchical categoric variables[(2)](#reference).
 
 
 ## Instruction
@@ -79,4 +79,5 @@ In this section, an R script and corresponding plots created using the g.princal
 
 ## Reference
 
-https://rdrr.io/rforge/Gifi/src/R/plot.princals.R
+  - https://rdrr.io/rforge/Gifi/src/R/plot.princals.R
+  - https://github.com/jasb3110/g.princals/blob/7d6bcd378248de201963f0413eee7c232bb2f753/g.princals.R
