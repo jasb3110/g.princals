@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 # g.princals
 
@@ -16,7 +16,8 @@ It´s R-script to improve aesthetic plotting of princals function of Gifi packag
 
 ## Proposal 
 
-g.princals is a function designed to address aesthetic issues encountered when using plot.princals of "Gifi"" package[(3)](#reference), which exclusively generates plots using a "graphic" package. g.princals leverages the power of the ggplot2 package, renowned for producing high-quality visuals.
+g.princals is a function designed to address aesthetic issues encountered when using plot.princals of "Gifi"" package[(3)](#reference), which exclusively generates plots using a "graphic" package. g.princals leverages the power of the ggplot2 package, renowned for producing high-quality visuals.this function just produce, transplot, scree plot, loadplot and biplot for hierarchical categoric variables.
+
 
 ## Instruction
 
