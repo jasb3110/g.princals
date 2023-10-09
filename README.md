@@ -36,6 +36,7 @@ g.princals is a function designed to address aesthetic issues encountered when u
   - width: Default condition being set to 250mm.
   - height: Default condition being set to 250mm. 
   - res: resolution of pictures. Default condition being set to 300 pixels.
+  - dispersion: dispersion of scores of object in loadplot. Deufault condiction being set to mean ±3*standard desviation.
   
 ## R code
 

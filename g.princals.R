@@ -3,13 +3,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     stepvec = NA, col.lines = "black",main,
                     show=c(TRUE,FALSE,T,F,1,0),
                     save=c(TRUE,FALSE,T,F,1,0),name,
-                    width = 250, height =250, units = 'mm', res =300){
-  ##################################### 
-  # License: GNU
-  # Author: José Solís, October 2023
-  # email: solisbenites.jose@gmail.com
-  ####################################
-  
+                    width = 300, height =300, units = 'mm', res =480,dispersion=3){
   require("Gifi")
   require("ggplot2")
   require("scales")
@@ -19,18 +13,17 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   require("ggrepel")
   require("ggh4x")
   require("Hmisc")
-  
   ################################################################################
-  
   if (missing(name)) name=as.character(x$call[2])
   if (missing(show)) show=1
   if (missing(save)) save=0
   if (missing(main)) main=colnames(x$data)
   if (missing(var.subset)) var.subset="all"
-  if (missing(width)) width = 250
-  if (missing(height)) height =250 
+  if (missing(width)) width = 300
+  if (missing(height)) height =300 
   if (missing(units)) units = 'mm'
-  if (missing(res)) res =300
+  if (missing(res)) res =480
+  if (missing(dispersion)) dispersion =3
   ss=c(0,1,T,F,TRUE,FALSE)
   
   if(length(show)!=1){
@@ -40,7 +33,6 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
       stop("Value don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
     }
   } 
-  
   if(length(save)!=1){
     stop("Value should be one item")
   }else{
@@ -49,15 +41,18 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     }
   }
   
+  if(is.numeric(dispersion)<1) stop("Dispersion of loadplot´s points should a number between 0.5 to 6")
+  if((dispersion>.49&dispersion<6.01)==0) stop("Dispersion of loadplot´s points is number between 0.5 to 6")
+  
   ################################################################################
   #biplot
-  main=paste0("Biplot ",x$call[2])
+  main=paste0("Biplot ",name)
   nvar <- dim(x$data)[2]  
   VAF=x$evals[1:nvar]/sum(x$evals[1:nvar])
   vaf=VAF[plot.dim]
   xycoor=x$loadings
-  vPC1 <- xycoor[,1]*.9
-  vPC2 <- xycoor[,2]*.9
+  vPC1 <- xycoor[,1]
+  vPC2 <- xycoor[,2]
   vlabs <- rownames(xycoor)
   vPCs <- data.frame(vPC1=vPC1,vPC2=vPC2)
   rownames(vPCs) <- vlabs
@@ -65,7 +60,6 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   angle <- seq(-pi, pi, length = 100) 
   df <- data.frame(x = sin(angle), y = cos(angle)) 
   p1=ggplot(aes(x, y), data = df)+ 
-    coord_fixed(ratio = 1)+
     theme_classic()+
     geom_path(colour="grey70")+
     geom_vline(aes(xintercept=0), colour="grey70", linetype="dashed")+
@@ -76,11 +70,12 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     ylab(paste0("Dim ", plot.dim[2]," (",round(vaf[2]*100,2),"%)") )+
     ggtitle(main)+
     geom_segment(data=vPCs, aes(x = 0, y = 0, xend = vPC1, yend = vPC2), arrow = arrow(length = unit(.75, 'picas')), colour = "red")+
-    geom_text_repel(data=vPCs, aes(x=vPC1,y=vPC2,label=rownames(vPCs),segment.colour="gray"),
-                    force             = 2,
-                    nudge_x           = .4,
-                    direction         = "y",
-                    hjust             = 0,
+    geom_text_repel(data= subset(vPCs,vPC1>0), aes(x=vPC1,y=vPC2,label=rownames(subset(vPCs,vPC1>0)),segment.colour="black"),
+                    force   = .1,
+                    nudge_x = 1.25-subset(vPCs,vPC1>0)$vPC1*.5,
+                    direction = "y",
+                    vjust = .5,
+                    hjust = 0,
                     segment.size      = .2,
                     segment.curvature = -.1,
                     min.segment.length = unit(0, 'lines'),
@@ -88,33 +83,71 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     size=4,
                     fontface = 'bold',
                     point.padding = unit(1, 'lines'),
-                    segment.ncp = 0,
-                    segment.angle =0,
-                    box.padding = .3,
+                    segment.ncp = 3,
+                    segment.angle =45,
+                    box.padding = unit(1, 'lines'),
                     max.time = 20
-    )
+    )+
+    geom_text_repel(data= subset(vPCs,vPC1<0), aes(x=vPC1,y=vPC2,label=rownames(subset(vPCs,vPC1<0)),segment.colour="gray"),
+                    force   = .1,
+                    nudge_x = -1.25-subset(vPCs,vPC1<0)$vPC1*.5,
+                    direction = "y",
+                    vjust = .5,
+                    hjust = 1,
+                    segment.size      = .2,
+                    segment.curvature = -.1,
+                    min.segment.length = unit(0, 'lines'),
+                    colour="red",
+                    size=4,
+                    fontface = 'bold',
+                    point.padding = unit(1, 'lines'),
+                    segment.ncp = 3,
+                    segment.angle =45,
+                    box.padding =unit(1, 'lines'),
+                    max.time = 100)+
+    coord_fixed(ratio = 1)
   ################################################################################
   #loadplot
-  main=paste0("Loadplot ",x$call[2])
-  pxy=data.frame(x$objectscores[,1:2]*.9)
-  colnames(pxy)=c("D1","D2")
-  p2=ggplot(data=pxy,aes(x=D1,y=D2))+ 
-    coord_fixed(ratio = 1)+
+  main=paste0("Loadplot ",name)
+  pxy=data.frame(x$objectscores[,1:2])
+  
+  mx=mean(pxy[,1],na.rm = T)
+  sx=sd(pxy[,1],na.rm = T)
+  lx1=mx-dispersion*sx
+  lx2=mx+dispersion*sx
+  
+  my=mean(pxy[,2],na.rm = T)
+  sy=sd(pxy[,2],na.rm = T)
+  ly1=my-dispersion*sy
+  ly2=my+dispersion*sy
+  
+  pxy1=subset(pxy,pxy[,1]>lx1)
+  pxy2=subset(pxy1,pxy1[,1]<lx2)
+  pxy3=subset(pxy2,pxy2[,2]>ly1)
+  pxy4=subset(pxy3,pxy3[,2]<ly2)
+  
+  l1=min(-1*max(abs(pxy4[,1]),na.rm = T)-sd(pxy4[,1],na.rm = T),-1*max(abs(pxy4[,2]),na.rm = T)-sd(pxy4[,2],na.rm = T),na.rm=T)*(1+.1/(.5*dispersion**3+dispersion))
+  l2=max(max(abs(pxy4[,1]),na.rm = T)+sd(pxy4[,1],na.rm = T),max(abs(pxy4[,2]),na.rm = T)+sd(pxy4[,2],na.rm = T),na.rm=T)*(1+1/(.5*dispersion**3+dispersion))
+  
+  colnames(pxy4)=c("D1","D2")
+  
+  p2=ggplot(data=pxy4,aes(x=D1,y=D2))+ 
     theme_classic()+
     geom_vline(aes(xintercept=0), colour="grey70", linetype="dashed")+
     geom_hline(aes(yintercept=0), colour="grey70", linetype="dashed")+
-    geom_point()+
-    scale_x_continuous(breaks =scales::pretty_breaks(n = 3),guide = "axis_minor")+
-    scale_y_continuous(breaks =scales::pretty_breaks(n = 3),guide = "axis_minor")+
-    xlab(paste0("PC ", plot.dim[1]," (",round(vaf[1]*100,2),"%)")) + 
+    geom_point(size =.2,alpha = .1)+
+    xlab(paste0("PC ", plot.dim[1]," (",round(vaf[1]*100,2),"%)"))+ 
     ylab(paste0("PC ", plot.dim[2]," (",round(vaf[2]*100,2),"%)"))+
     ggtitle(main)+
+    scale_x_continuous(limits=c(l1,l2),breaks =scales::pretty_breaks(n = 4),guide = "axis_minor")+
+    scale_y_continuous(limits=c(l1,l2),breaks =scales::pretty_breaks(n = 4),guide = "axis_minor")+
     geom_segment(data=vPCs, aes(x = 0, y = 0, xend = vPC1, yend = vPC2), arrow = arrow(length = unit(.75, 'picas')), colour = "red")+
-    geom_text_repel(data=vPCs, aes(x=vPC1,y=vPC2,label=rownames(vPCs),segment.colour="gray"),
-                    force             = 2,
-                    nudge_x           = 2,
-                    direction         = "y",
-                    hjust             = 0,
+    geom_text_repel(data= subset(vPCs,vPC1>0), aes(x=vPC1,y=vPC2,label=rownames(subset(vPCs,vPC1>0)),segment.colour="black"),
+                    force   = .1,
+                    nudge_x =1.5-subset(vPCs,vPC1>0)$vPC1*.5,
+                    direction = "y",
+                    vjust = .5,
+                    hjust = 0,
                     segment.size      = .2,
                     segment.curvature = -.1,
                     min.segment.length = unit(0, 'lines'),
@@ -122,15 +155,33 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     size=4,
                     fontface = 'bold',
                     point.padding = unit(1, 'lines'),
-                    segment.ncp = 0,
-                    segment.angle =0,
-                    box.padding = .3,
-                    max.time = 20
-    )
+                    segment.ncp = 3,
+                    segment.angle =45,
+                    box.padding = unit(1, 'lines'),
+                    max.time = 20)+
+    geom_text_repel(data= subset(vPCs,vPC1<0), aes(x=vPC1,y=vPC2,label=rownames(subset(vPCs,vPC1<0)),segment.colour="gray"),
+                    force   = .1,
+                    nudge_x = -1.5-subset(vPCs,vPC1<0)$vPC1*.5,
+                    direction = "y",
+                    vjust = .5,
+                    hjust = 1,
+                    segment.size      = .2,
+                    segment.curvature = -.1,
+                    min.segment.length = unit(0, 'lines'),
+                    colour="red",
+                    size=4,
+                    fontface = 'bold',
+                    point.padding = unit(1, 'lines'),
+                    segment.ncp = 3,
+                    segment.angle =45,
+                    box.padding = unit(1, 'lines'),
+                    max.time = 100)+
+    coord_fixed(ratio = 1)
+  
   ################################################################################
   #screeplot
   nd <-data.frame(x=1:length(x$evals),y=x$evals)
-  main <- paste0("Scree Plot ",x$call[2])
+  main <- paste0("Scree Plot ",name)
   xlab <- "Number of Components"
   ylab <- "Eigenvalues"
   ylim <- c(0, max(x$evals))
@@ -159,9 +210,9 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   g=ceiling(nvars/(max.plot.array**2)) 
   
   if(sum(show==TRUE,show==T,show==1,na.rm=T)==3){
-    print("Ok, it just shows plots")
+    print(paste0("Ok, it just shows ",name,"-transplots"))
   }else{
-    print("Ok, just transplots did not show")
+    print(paste0("Ok, just ",name,"-transplots did not show"))
   }
   
   vx=NA
@@ -178,12 +229,11 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   
   for(k in 1:as.numeric(g)){
     if(sum(save==TRUE,save==T,save==1,na.rm=T)==3){
-      png(paste0(name,".transplot.",k,".png"), width = width, height =height, units = units, res =res)}
-    else{
-      print("Transplots, it were not saved")
+      png(filename = paste0(name,".transplot.",k,".png"),res=res,width=width,height=height,units=units)
+    }else{
+      print(paste0(name,"-Transplots, it were not saved"))
     }
-    
-    if (class(x$transform[,var.subset])[1] == "list") {                        ## homals-type transformation plot if copies are present
+    if (class(x$transform[,var.subset])[1] == "list") {           ## homals-type transformation plot if copies are present
       nvars <- length(var.subset)                                 ## number of variables to be plotted
       plotvars <- as.matrix(x$datanum[,var.subset])   
       xlabels <- as.data.frame(x$data[,var.subset])
@@ -324,25 +374,23 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     
     if(sum(save==TRUE,save==T,save==1,na.rm=T)==3){
       dev.off()
-      print("Transplots were saved,but you dont see plots")
+      print(paste0(name,"-Transplots were saved,but you do not see plots"))
     }else{
-      print("Watch out, Transplot was not save")
+      print(paste0("Watch out, ",name,"-Transplot was not save"))
     }
   }
-  
   if(sum(show==TRUE,show==T,show==1,na.rm=T)==3){
     return(list(p3,p2,p1))
-    print("Biplot, loadplot and scree  plots just shows")
+    print(paste0(name,"-Biplot, loadplot and scree  plots just shows"))
   }else{
-    print("Ok, Biplot, loadplot and scree  plots did not show")
+    print(paste0("Ok, ",name,"-Biplot, loadplot and scree  plots did not show"))
   }
-  
   if(sum(save==TRUE,save==T,save==1,na.rm=T)==3){
     ggsave(paste0(name,".biplot.png"), dpi = res,   width = width,height = height,unit=units,plot =p1)
     ggsave(paste0(name,".loadplot.png"), dpi = res,   width = width,height = height,unit=units,plot =p2)
     ggsave(paste0(name,".screeplot.png"), dpi = res,   width = width,height = height,unit=units,plot =p3)
-    print("Biplot, loadplot and scree  plots were saving")
+    print(paste0(name,"-Biplot, loadplot and scree  plots were saving"))
   }else{
-    print("Ok, Biplot, loadplot and scree  plots were not save")
+    print(paste0("Ok, ",name,"-Biplot, loadplot and scree  plots were not save"))
   }
 }
