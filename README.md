@@ -54,27 +54,27 @@ g.princals(fitord,save=1,show=0)#save plots in PNG format
 ## Output
 In this section, an R script and corresponding plots created using the g.princals function are presented.
 
-|[![Plot.1](ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.1.png?raw=true)|
+|[![Plot.1](ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.1.png?raw=true)|
 |:--:| 
 |*Picture. Transplots of ABC dataset, just 1 to 4 variables*|
 
-|[![Plot.2](ABC.transplot.2.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.2.png?raw=true)|
+|[![Plot.2](ABC.transplot.2.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.2.png?raw=true)|
 |:--:| 
 |*Picture. Transplots of ABC dataset, just 5 to 8 variables*|
 
-|[![Plot.3](ABC.transplot.3.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.transplot.3.png?raw=true)|
+|[![Plot.3](ABC.transplot.3.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.3.png?raw=true)|
 |:--:| 
 |*Picture. Transplots of ABC dataset, just 9 to 11 variables*|
 
-|[![Plot.4](ABC.screeplot.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.screeplot.png?raw=true)|
+|[![Plot.4](ABC.screeplot.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.screeplot.png?raw=true)|
 |:--:| 
 |*Picture. Screeplot of ABC dataset*|
 
-|[![Plot.5](ABC.loadplot.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.loadplot.png?raw=true)|
+|[![Plot.5](ABC.loadplot.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.loadplot.png?raw=true)|
 |:--:| 
 |*Picture. Loadplot of ABC dataset*|
 
-|[![Plot.6](ABC.biplot.png)](https://github.com/jasb3110/g.princals/blob/6c05b350f10a0e56130864eb4b018dcf658da2a9/ABC.biplot.png?raw=true)|
+|[![Plot.6](ABC.biplot.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.biplot.png?raw=true)|
 |:--:| 
 |*Picture. Biplot of ABC dataset*|
 
