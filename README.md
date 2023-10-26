@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 # g.princals
 
@@ -37,7 +37,7 @@ g.princals is a function designed to address aesthetic issues encountered when u
   - height: Default condition being set to 250mm. 
   - res: resolution of pictures. Default condition being set to 300 pixels.
   - dispersion: dispersion of scores of object in loadplot.it is decreased overdispersion or underdispersion. Default condition being set to 3, it means, mean±3*standard deviation.
-  - point.size.loadplot: it is point size of loadplot. Default condition being set to 1,
+  - point.size.loadplot: it is point size of loadplot. Default condition being set to 1.
   - point.alpha.loadplot: it is point alpha(transparency) of loadplot. Default condition being set to 0.1,  
   - language: choose a English or Spanish like language. Default condition being set English.
   - legend.position: Options to choose are none, left, right, bottom, and top. Default condition being set to right. it means legend position is to right.
