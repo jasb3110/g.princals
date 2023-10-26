@@ -1,7 +1,7 @@
 ---
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 # g.princals
 
@@ -91,4 +91,4 @@ In this section, an R script and corresponding plots created using the g.princal
 ## Reference
 
   - https://rdrr.io/rforge/Gifi/src/R/plot.princals.R
-  - https://github.com/jasb3110/g.princals/blob/7d6bcd378248de201963f0413eee7c232bb2f753/g.princals.R
+  - https://github.com/jasb3110/g.princals/blob/0ed7b04adcb1039de5f9cafca0c6315a36a37e09/g.princals.R
