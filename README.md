@@ -60,7 +60,7 @@ g.princals(fitord,save=1,show=0,dispersion =3,colour.group = c(rep("A",5),rep("B
 ################################################################################
 ```
 ## Output
-In this section, an R script and corresponding plots created using the g.princals function are presented.
+In this section, an R script and corresponding plots created using the g.princals function are presented in Spanish, and group of variables.
 
 |[![Plot.1](ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.1.png?raw=true)|
 |:--:| 
