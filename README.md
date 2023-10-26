@@ -37,6 +37,8 @@ g.princals is a function designed to address aesthetic issues encountered when u
   - height: Default condition being set to 250mm. 
   - res: resolution of pictures. Default condition being set to 300 pixels.
   - dispersion: dispersion of scores of object in loadplot. Default condition being set to mean ±3*standard deviation.
+  - point.size.loadplot: it is point size of loadplot. Default condition being set to 1,
+  - point.alpha.loadplot: it is point alpha(transparency) of loadplot. Default condition being set to 0.1,  
   - language: choose a English or Spanish like language. Default condition being set English.
   - legend.position: Options to choose are none, left, right, bottom, and top. Default condition being set to right. it means legend position is to right.
   - legend.group: Options to choose are TRUE,FALSE,T,F,1 and 0. Default condition being set to "1" mean it shows legend.
@@ -62,27 +64,27 @@ g.princals(fitord,save=1,show=0,dispersion =3,colour.group = c(rep("A",5),rep("B
 ## Output
 In this section, an R script and corresponding plots created using the g.princals function are presented in Spanish, and group of variables.
 
-|[![Plot.1](ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.1.png?raw=true)|
+|[![Plot.1](ABC.transplot.1.png)](https://github.com/jasb3110/g.princals/blob/fb5dbc28c4a2e9677e6952ddd5b2dc2350b8ebf7/ABC.transplot.1.png?raw=true)|
 |:--:| 
 |*Picture. Transplots of ABC dataset, just 1 to 4 variables*|
 
-|[![Plot.2](ABC.transplot.2.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.2.png?raw=true)|
+|[![Plot.2](ABC.transplot.2.png)](https://github.com/jasb3110/g.princals/blob/fb5dbc28c4a2e9677e6952ddd5b2dc2350b8ebf7/ABC.transplot.2.png?raw=true)|
 |:--:| 
 |*Picture. Transplots of ABC dataset, just 5 to 8 variables*|
 
-|[![Plot.3](ABC.transplot.3.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.transplot.3.png?raw=true)|
+|[![Plot.3](ABC.transplot.3.png)](https://github.com/jasb3110/g.princals/blob/fb5dbc28c4a2e9677e6952ddd5b2dc2350b8ebf7/ABC.transplot.3.png?raw=true)|
 |:--:| 
 |*Picture. Transplots of ABC dataset, just 9 to 11 variables*|
 
-|[![Plot.4](ABC.screeplot.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.screeplot.png?raw=true)|
+|[![Plot.4](ABC.screeplot.png)](https://github.com/jasb3110/g.princals/blob/fb5dbc28c4a2e9677e6952ddd5b2dc2350b8ebf7/ABC.screeplot.png?raw=true)|
 |:--:| 
 |*Picture. Screeplot of ABC dataset*|
 
-|[![Plot.5](ABC.loadplot.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.loadplot.png?raw=true)|
+|[![Plot.5](ABC.loadplot.png)](https://github.com/jasb3110/g.princals/blob/fb5dbc28c4a2e9677e6952ddd5b2dc2350b8ebf7/ABC.loadplot.png?raw=true)|
 |:--:| 
 |*Picture. Loadplot of ABC dataset*|
 
-|[![Plot.6](ABC.biplot.png)](https://github.com/jasb3110/g.princals/blob/c89ef09076884d4912b9154b38acc057999f0548/ABC.biplot.png?raw=true)|
+|[![Plot.6](ABC.biplot.png)](https://github.com/jasb3110/g.princals/blob/fb5dbc28c4a2e9677e6952ddd5b2dc2350b8ebf7/ABC.biplot.png?raw=true)|
 |:--:| 
 |*Picture. Biplot of ABC dataset*|
 
