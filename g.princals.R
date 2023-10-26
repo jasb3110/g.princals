@@ -10,7 +10,6 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     language=c("english","spanish"),
                     legend.position=c("none", "left", "right", "bottom", "top"),
                     legend.group=c(TRUE,FALSE,T,F,1,0)){
-  
   ##################################### 
   # License: GNU
   # Author: José Solís, October 2023
