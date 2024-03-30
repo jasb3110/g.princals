@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # g.princals
 
 It´s R-script to improve aesthetic plotting of princals function of Gifi package
