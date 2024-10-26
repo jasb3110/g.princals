@@ -1,4 +1,3 @@
-#function
 g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     stepvec = NA, col.lines = "black",main,
                     show=c(TRUE,FALSE,T,F,1,0),
@@ -12,7 +11,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     legend.group=c(TRUE,FALSE,T,F,1,0)){
   ##################################### 
   # License: GNU
-  # Author: José Solís, October 2023
+  # Author: José Solís, October 2024
   # email: solisbenites.jose@gmail.com
   ####################################
   require("Gifi")
@@ -25,8 +24,10 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   require("ggh4x")
   require("Hmisc")
   require("RColorBrewer")
-  ################################################################################
-  ################################################################################
+  ##############################################################################
+  ##############################################################################
+  begin=Sys.time()#Begining time
+  cat(paste0("To begin to g.princals of ",deparse(substitute(x)), sep="\n\n"))
   
   if (missing(name)) name=as.character(x$call[2])
   if (missing(show)) show=1
@@ -47,37 +48,43 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   ss=c(0,1,T,F,TRUE,FALSE)
   
   if(length(show)!=1){
+    beep(7)
     stop("'show' should be one item")
   }else{
     if(sum(ss==show)!=3){
+      beep(7)
       stop("'show'don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
     }
   }
   
   if(length(save)!=1){
+    beep(7)
     stop("'save' should be one item")
   }else{
     if(sum(ss==save)!=3){
+      beep(7)
       stop("'save' don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
     }
   }
   
   if(length(legend.group)!=1){
+    beep(7)
     stop("'legend.group' should be one item")
   }else{
     if(sum(ss==legend.group)!=3){
+      beep(7)
       stop("'legend.group' don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
     }
   } 
   
-  if(is.numeric(dispersion)<1) stop("Dispersion of loadplot´s points should a number between 0.5 to 6")
-  if((dispersion>.49&dispersion<6.01)==0) stop("Dispersion of loadplot´s points is number between 0.5 to 6")
+  if(is.numeric(dispersion)<1){beep(7);stop("Dispersion of loadplot´s points should a number between 0.5 to 6")}
+  if((dispersion>.49&dispersion<6.01)==0){beep(7);stop("Dispersion of loadplot´s points is number between 0.5 to 6")}
   
-  if(is.numeric(point.size.loadplot)<1) stop("point.size.loadplot of loadplot´s points should a number between 0.01 to 3")
-  if(is.numeric(point.alpha.loadplot)<1) stop("point.alpha.loadplot of loadplot´s points should a number between 0.01 to 1")
+  if(is.numeric(point.size.loadplot)<1) {beep(7);stop("point.size.loadplot of loadplot´s points should a number between 0.01 to 3")}
+  if(is.numeric(point.alpha.loadplot)<1) {beep(7);stop("point.alpha.loadplot of loadplot´s points should a number between 0.01 to 1")}
   
-  if((point.size.loadplot>0&point.size.loadplot<3.01)==0) stop("point.size.loadplot of loadplot´s points is number between 0.01 to 3")
-  if((point.alpha.loadplot>0&point.alpha.loadplot<1.01)==0) stop("point.alpha.loadplot of loadplot´s points is number between 0 to 1")
+  if((point.size.loadplot>0&point.size.loadplot<3.01)==0) {beep(7);stop("point.size.loadplot of loadplot´s points is number between 0.01 to 3")}
+  if((point.alpha.loadplot>0&point.alpha.loadplot<1.01)==0) {beep(7);stop("point.alpha.loadplot of loadplot´s points is number between 0 to 1")}
   
   if (missing(colour.group)){
     col="red"
@@ -87,20 +94,27 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     if(ncol(x$data)==length(colour.group)){
       col=factor(colour.group)
     }else{
+      beep(7)
       stop("number of groups shoud be the same numbers of columns")
     }
   }
   
   if(length(language)!=1){
+    beep(7)
     stop("'language' should be one item")
   }else{
     if(sum(c("english","spanish")==language)!=1){
+      beep(7)
       stop("'language'don´t allowed, just to be english or spanish")
     }
   }
   
   if(language=="spanish")  label.language=c("Grupo de\n variables","CP ","Número de componentes","Autovalores","Observado","Transformado"," de ")
   if(language=="english")  label.language=c("Group of\nvariables","PC ","Number of Components","Eigenvalues","Observed","Transformed"," of ") 
+  
+  beep(2)
+  beep(2)
+  beep(2)#mario bros sound
   
   ################################################################################
   #biplot
@@ -477,3 +491,11 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     print(paste0("Ok, ",name,"-Biplot, loadplot and scree  plots were not save"))
   }
 }
+################################################################################
+################################################################################
+end=Sys.time()#ending time
+tem=round(end-begin,2)
+cat("Working time was estimated how", sep="\n\n")
+print(tem)
+cat(paste0("g.princals finished of ",deparse(substitute(x))," successfully!!", sep="\n\n"))
+beep(8)#mario bros sound
