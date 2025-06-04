@@ -3,7 +3,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-# g.princals
+# $g.princals$
 
 This script provides a way to enhance the appearance of plots created with the PRINCALS function from the Gifi package in R [(1)](#references) using source code of plot function in Gifi package.
 Since PRINCALS generates complex outputs that require additional processing for effective visualization.
