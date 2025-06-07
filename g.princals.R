@@ -1,32 +1,45 @@
-g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
-                    stepvec = NA, col.lines = "black",main,
-                    show=c(TRUE,FALSE,T,F,1,0),
-                    save=c(TRUE,FALSE,T,F,1,0),name,
-                    width = 300, height =300, units = 'mm', 
-                    res =480,dispersion=3,colour.group=NA,
-                    point.size.loadplot=1,
-                    point.alpha.loadplot=0.1,
-                    language=c("english","spanish"),
-                    legend.position=c("none", "left", "right", "bottom", "top"),
-                    legend.group=c(TRUE,FALSE,T,F,1,0)){
+g.princals <- function(x,
+                       plot.dim = c(1, 2),
+                       var.subset = "all",
+                       max.plot.array = 2,
+                       stepvec = NA,
+                       col.lines = "black",
+                       main = NULL,
+                       show = TRUE,
+                       save = FALSE,
+                       name = NULL,
+                       width = 300,
+                       height = 300,
+                       units = "mm",
+                       res = 480,
+                       dispersion = 3,
+                       colour.group ="red",
+                       point.size.loadplot = 1,
+                       point.alpha.loadplot = 0.1,
+                       language = "english",
+                       legend.position = "right",
+                       legend.group = FALSE
+                       ){
   ##################################### 
   # License: GNU
-  # Author: José Solís, October 2024
+  # Author: José Solís, June 2025
   # email: solisbenites.jose@gmail.com
   ####################################
-  require("Gifi")
-  require("ggplot2")
-  require("scales")
-  require("grid")
-  require("plyr")
-  require("gridExtra")
-  require("ggrepel")
-  require("ggh4x")
-  require("Hmisc")
-  require("RColorBrewer")
+  #Begining time
+  begin <- Sys.time()
+  
+  required_pkgs <- c("Gifi","plyr","tidyr","tidyverse","ggplot2","grid","dplyr","gridExtra","scales", "ggrepel", "ggh4x", "Hmisc", "RColorBrewer","beepr")
+
+  for(i in 1:length(required_pkgs)){
+  if (!requireNamespace(required_pkgs[i], quietly = TRUE)) install.packages(required_pkgs[i])
+  }
+  
+  invisible(lapply(required_pkgs, require, character.only = TRUE))
+  #invisible(lapply(required_pkgs, library, character.only = TRUE))
+
   ##############################################################################
   ##############################################################################
-  begin=Sys.time()#Begining time
+  
   cat(paste0("To begin to g.princals of ",deparse(substitute(x)), sep="\n\n"))
   
   if (missing(name)) name=as.character(x$call[2])
@@ -44,81 +57,86 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   if (missing(legend.position)) legend.position="right"
   if (missing(point.size.loadplot)) point.size.loadplot=1
   if (missing(point.alpha.loadplot)) point.alpha.loadplot=.1
-  
+
   ss=c(0,1,T,F,TRUE,FALSE)
   
   if(length(show)!=1){
-    beep(7)
-    stop("'show' should be one item")
+    beepr::beep(7)
+    stop("'show' should be one item: TRUE,FALSE,T,F,1 or 0")
   }else{
     if(sum(ss==show)!=3){
-      beep(7)
-      stop("'show'don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
+      beepr::beep(7)
+      stop("'show'don´t allowed, just to be TRUE,FALSE,T,F,1 or 0")
     }
   }
   
   if(length(save)!=1){
-    beep(7)
-    stop("'save' should be one item")
+    beepr::beep(7)
+    stop("'save' should be one item: TRUE,FALSE,T,F,1 or 0")
   }else{
     if(sum(ss==save)!=3){
-      beep(7)
-      stop("'save' don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
+      beepr::beep(7)
+      stop("'save' don´t allowed, just to be TRUE,FALSE,T,F,1 or 0")
     }
   }
   
   if(length(legend.group)!=1){
-    beep(7)
-    stop("'legend.group' should be one item")
+    beepr::beep(7)
+    stop("'legend.group' should be one item:TRUE,FALSE,T,F,1 or 0")
   }else{
     if(sum(ss==legend.group)!=3){
-      beep(7)
-      stop("'legend.group' don´t allowed, just to be TRUE,FALSE,T,F,1 and 0")
+      beepr::beep(7)
+      stop("'legend.group' don´t allowed, just to be TRUE,FALSE,T,F,1 or 0")
     }
   } 
   
-  if(is.numeric(dispersion)<1){beep(7);stop("Dispersion of loadplot´s points should a number between 0.5 to 6")}
-  if((dispersion>.49&dispersion<6.01)==0){beep(7);stop("Dispersion of loadplot´s points is number between 0.5 to 6")}
-  
-  if(is.numeric(point.size.loadplot)<1) {beep(7);stop("point.size.loadplot of loadplot´s points should a number between 0.01 to 3")}
-  if(is.numeric(point.alpha.loadplot)<1) {beep(7);stop("point.alpha.loadplot of loadplot´s points should a number between 0.01 to 1")}
-  
-  if((point.size.loadplot>0&point.size.loadplot<3.01)==0) {beep(7);stop("point.size.loadplot of loadplot´s points is number between 0.01 to 3")}
-  if((point.alpha.loadplot>0&point.alpha.loadplot<1.01)==0) {beep(7);stop("point.alpha.loadplot of loadplot´s points is number between 0 to 1")}
+  if(!is.numeric(dispersion)){beepr::beep(7);stop("Dispersion of loadplot´s points should a number between 0.5 to 6")}
+  if(!is.numeric(point.size.loadplot)){beepr::beep(7);stop("point.size.loadplot of loadplot´s points should a number between 0.01 to 3")}
+  if(!is.numeric(point.alpha.loadplot)){beepr::beep(7);stop("point.alpha.loadplot of loadplot´s points should a number between 0.01 to 1")}
+  if((dispersion>=.5&dispersion<=6)==0){beepr::beep(7);stop("Dispersion of loadplot´s points should a number between 0.5 to 6")}
+  if((point.size.loadplot>=.01&point.size.loadplot<=3)==0) {beepr::beep(7);stop("point.size.loadplot of loadplot´s points should a number between 0.01 to 3")}
+  if((point.alpha.loadplot>=.01&point.alpha.loadplot<=1)==0) {beepr::beep(7);stop("point.alpha.loadplot of loadplot´s points should a number between 0.01 to 1")}
   
   if (missing(colour.group)){
-    col="red"
-    legend.group=0
-    
+    col="red";legend.group=0
   }else{
     if(ncol(x$data)==length(colour.group)){
-      col=factor(colour.group)
+      col=factor(colour.group,levels = sort(unique(colour.group)))
     }else{
-      beep(7)
-      stop("number of groups shoud be the same numbers of columns")
+      beepr::beep(7);stop("Number of groups shoud be the same numbers of columns")
     }
   }
   
   if(length(language)!=1){
-    beep(7)
-    stop("'language' should be one item")
+    beepr::beep(7)
+    stop("'language' should be one item: english or spanish")
   }else{
     if(sum(c("english","spanish")==language)!=1){
-      beep(7)
+      beepr::beep(7)
       stop("'language'don´t allowed, just to be english or spanish")
     }
   }
   
-  if(language=="spanish")  label.language=c("Grupo de\n variables","CP ","Número de componentes","Autovalores","Observado","Transformado"," de ")
-  if(language=="english")  label.language=c("Group of\nvariables","PC ","Number of Components","Eigenvalues","Observed","Transformed"," of ") 
+  if(language=="spanish"){
+    label.language=c("Grupo de\n variables","CP ","Número de componentes","Autovalores","Observado","Transformado"," de ")
+    title.biplot <- "Gráfico biplot "
+    title.loadplot <- "Gráfico de cargas "
+    title.scree <- "Gráfico de sedimentación "
+  }
   
-  beep(2)
-  beep(2)
-  beep(2)#mario bros sound
+  if(language=="english"){
+    label.language=c("Group of\nvariables","PC ","Number of Components","Eigenvalues","Observed","Transformed"," of ")
+    title.biplot <- "Biplot "
+    title.loadplot <- "Loadplot "
+    title.scree <- "Scree Plot "
+  }
+  
+  beepr::beep(2)
+  beepr::beep(2)#mario bros sound
   
   ################################################################################
   #biplot
-  main=paste0("Biplot ",name)
+  main=paste0(title.biplot,name)
   nvar <- dim(x$data)[2]  
   VAF=x$evals[1:nvar]/sum(x$evals[1:nvar])
   vaf=VAF[plot.dim]
@@ -161,7 +179,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     segment.ncp = 3,
                     segment.angle =45,
                     box.padding = unit(1, 'lines'),
-                    max.time = 100)+
+                    max.time = 10)+
     scale_colour_brewer(name=label.language[1],palette="Set1")+
     geom_text_repel(data= subset(vPCs,vPC1<0), aes(x=vPC1,y=vPC2,label=rownames(subset(vPCs,vPC1<0)),segment.colour="black",colour=col),
                     force   = .1,
@@ -178,7 +196,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
                     segment.ncp = 3,
                     segment.angle =45,
                     box.padding =unit(1, 'lines'),
-                    max.time = 100)+
+                    max.time = 10)+
     scale_colour_brewer(name=label.language[1],palette="Set1")+
     coord_fixed(ratio = 1)+
     theme(plot.title = element_text(size = 18, face = "bold"),
@@ -194,7 +212,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     }
   ################################################################################
   #loadplot
-  main=paste0("Loadplot ",name)
+  main=paste0(title.loadplot,name)
   pxy=data.frame(x$objectscores[,1:2])
   
   mx=mean(pxy[,1],na.rm = T)
@@ -277,7 +295,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   ################################################################################
   #screeplot
   nd <-data.frame(x=1:length(x$evals),y=x$evals)
-  main <- paste0("Scree Plot ",name)
+  main <- paste0(title.scree,name)
   xlab <- label.language[3]
   ylab <- label.language[4]
   ylim <- c(0, max(x$evals))
@@ -306,10 +324,10 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
   vars=length(var.subset)
   g=ceiling(nvars/(max.plot.array**2)) 
   
-  if(sum(show==TRUE,show==T,show==1,na.rm=T)==3){
-    print(paste0("Ok, it just shows ",name,"-transplots"))
+  if(show %in% c(TRUE, 1)){
+    cat(paste0("Ok, it just shows ",name,"-transplots"))
   }else{
-    print(paste0("Ok, just ",name,"-transplots did not show"))
+    cat(paste0("Ok, just ",name,"´s transplots did not show"))
   }
   
   vx=NA
@@ -328,7 +346,7 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     if(sum(save==TRUE,save==T,save==1,na.rm=T)==3){
       png(filename = paste0(name,".transplot.",k,".png"),res=res,width=width,height=height,units=units)
     }else{
-      print(paste0(name,"-Transplots, it were not saved"))
+      cat(paste0(name,"´s Transplots, it were not saved"))
     }
     if (class(x$transform[,var.subset])[1] == "list") {           ## homals-type transformation plot if copies are present
       nvars <- length(var.subset)                                 ## number of variables to be plotted
@@ -471,31 +489,39 @@ g.princals=function(x, plot.dim = c(1, 2),var.subset= "all", max.plot.array =2,
     
     if(sum(save==TRUE,save==T,save==1,na.rm=T)==3){
       dev.off()
-      print(paste0(name,"-Transplots were saved,but you do not see plots"))
+      cat(paste0(name,"´s Transplots were saved,but you do not see plots\n"))
     }else{
-      print(paste0("Watch out, ",name,"-Transplot was not save"))
+      cat(paste0("Watch out, ",name,"-Transplot was not save\n"))
     }
   }
+  
   if(sum(show==TRUE,show==T,show==1,na.rm=T)==3){
-    return(list(p3,p2,p1))
-    print(paste0(name,"-Biplot, loadplot and scree  plots just shows"))
-  }else{
-    print(paste0("Ok, ",name,"-Biplot, loadplot and scree  plots did not show"))
+    cat(paste0(name,"´s Biplot, loadplot and scree  plots has just showed\n"))
+    #return(list(p3,p2,p1))
+    }else{
+    cat(paste0("Ok, ",name,"´s Biplot, loadplot and scree  plots did not show\n"))
   }
-  if(sum(save==TRUE,save==T,save==1,na.rm=T)==3){
-    ggsave(paste0(name,".biplot.png"), dpi = res,   width = width,height = height,unit=units,plot =p1)
-    ggsave(paste0(name,".loadplot.png"), dpi = res,   width = width,height = height,unit=units,plot =p2)
-    ggsave(paste0(name,".screeplot.png"), dpi = res,   width = width,height = height,unit=units,plot =p3)
-    print(paste0(name,"-Biplot, loadplot and scree  plots were saving"))
-  }else{
-    print(paste0("Ok, ",name,"-Biplot, loadplot and scree  plots were not save"))
+    if (sum(save==TRUE,save==T,save==1,na.rm=T)==3){
+      ggsave(paste0(name, ".biplot.png"), plot = p1, dpi = res, width = width, height = height, units = units)
+      ggsave(paste0(name, ".loadplot.png"), plot = p2, dpi = res, width = width, height = height, units = units)
+      ggsave(paste0(name, ".screeplot.png"), plot = p3, dpi = res, width = width, height = height, units = units)
+      cat(paste0(name,"´s Biplot, loadplot and scree  plots were saving\n"))
+    }else{
+      cat(paste0("Ok, ",name,"´s Biplot, loadplot and scree  plots were not save\n"))
   }
+  
+################################################################################
+################################################################################
+end <- Sys.time()#ending time
+tem <- round(difftime(end, begin, units = "secs"),2)
+cat(paste0("Working time was ",tem, " seconds",sep="\n\n"))
+cat(paste0(name,"´s g.princals finished successfully!!", sep="\n\n"))
+beepr::beep(8)#mario bros sound
+
+if(sum(show==TRUE,show==T,show==1,na.rm=T)==3){
+  return(list(p3,p2,p1))
+}else{
+  return(invisible())
 }
-################################################################################
-################################################################################
-end=Sys.time()#ending time
-tem=round(end-begin,2)
-cat("Working time was estimated how", sep="\n\n")
-print(tem)
-cat(paste0("g.princals finished of ",deparse(substitute(x))," successfully!!", sep="\n\n"))
-beep(8)#mario bros sound
+
+}
