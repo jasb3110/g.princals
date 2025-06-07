@@ -1,7 +1,7 @@
 #to test of function |prueba del paquete
 
-setwd("D:/Pepe/2023/github/g.princals/")
-source("D:/Pepe/2023/github/g.princals/g.princals.R")
+setwd("~/g.princals")
+source("~/g.princals/g.princals.R")
 
 library("Gifi")
 #to begin
